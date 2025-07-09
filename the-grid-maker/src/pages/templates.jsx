@@ -42,7 +42,10 @@ const community = [
 ];
 
   return (
+    
     <div className="min-h-screen w-full bg-[#0e0e0f] text-[#f5f5f5] font-sans p-8">
+      
+
       <h1 className="text-3xl font-semibold tracking-wide mb-4">Templates</h1>
       <p className="text-gray-400 mb-8">
         Browse and use ready-made templates for your projects.

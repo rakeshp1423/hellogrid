@@ -2,7 +2,7 @@ import Hero from "../components/home/Hero";
 import HowItWorks from "../components/home/HowItWorks";
 import WhyChoose from "../components/home/WhyChoose";
 import RecentProjects from "../components/home/RecentProjects";
-// import Testimonials from "../components/home/Testimonials";
+import Testimonials from "../components/home/Testimonials";
 // import FAQs from "../components/home/FAQs";
 // import CallToActionStrip from "../components/home/CallToActionStrip";
 
@@ -15,7 +15,7 @@ export default function HomeAfterLogin() {
         <HowItWorks />
         <WhyChoose />
         <RecentProjects />
-        {/* <Testimonials /> */}
+        <Testimonials />
         {/* <FAQs /> */}
         {/* <CallToActionStrip /> */}
         
