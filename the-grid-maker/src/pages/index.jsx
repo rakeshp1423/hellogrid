@@ -6,7 +6,8 @@ import DemoShowcase from "../components/landing/DemoShowcase";
 import WhyChoose from "../components/landing/WhyChoose";
 import CommunityStats from "../components/landing/CommunityStats";
 import CTASection from "../components/landing/CTASection";
-
+import VerticalTextSpiral from "../components/VerticalTextSpiral";
+import SpiralText from '../components/SpiralText';
 export default function Index() {
   return (
     <div className="min-h-screen w-full bg-[#0e0e0f] text-[#f5f5f5] font-sans relative overflow-x-hidden">
@@ -23,6 +24,8 @@ export default function Index() {
       >
         <Hero />
         <AboutSection />
+        {/* <VerticalTextSpiral />
+        <SpiralText /> */}
         <Features />
         <DemoShowcase />
         <WhyChoose />

@@ -1,0 +1,31 @@
+.cylinder-container {
+  perspective: 1000px;
+  height: 400px;
+  position: relative;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.cylinder {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease-out;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.text-layer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0,0,0,0.3);
+  opacity: 0.9;
+  white-space: nowrap;
+}

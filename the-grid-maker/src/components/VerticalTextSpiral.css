@@ -1,0 +1,28 @@
+.spiral-banner-container {
+  height: 100vh;
+  background: #0f0f10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.spiral-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+  transform-origin: center;
+}
+
+.spiral-line span {
+  display: inline-block;
+  transform: translateX(-50%);
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  white-space: nowrap;
+  text-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+}

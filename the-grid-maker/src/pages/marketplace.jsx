@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaFire, FaTags, FaCrown, FaFolderOpen, FaSearch } from "react-icons/fa";
 import PyramidsBackground from "./PyramidsBackground";
+import RotatingTextCylinder from "../components/RotatingTextCylinder";
+import FeatureCylinder from "../components/FeatureCylinder";
+
 
 const featuredTemplates = [
   { id: "feat-1", title: "Modern Blog Grid", creator: "DevRiya", description: "Sleek layout for content writers.", tags: ["#modern", "#blog"] },
@@ -62,6 +65,8 @@ export default function Marketplace() {
         </Link>
         
       </motion.div>
+      {/* <RotatingTextCylinder /> */}
+      <FeatureCylinder />
       
       {/* 🌟 Featured Templates */}
       <section>

@@ -1,0 +1,41 @@
+.spiral-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  position: relative;
+  overflow: hidden;
+}
+
+.spiral-text {
+  position: absolute;
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-layer {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #111;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  white-space: nowrap;
+}
+
+.spiral-info {
+  width: 320px;
+  color: #333;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  text-align: left;
+  z-index: 10;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
