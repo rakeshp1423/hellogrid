@@ -2,10 +2,9 @@ import { useDrop } from "react-dnd";
 import { useState } from "react";
 import { Rnd } from "react-rnd";
 
-const GRID_SIZE = 20;
-
 export default function Canvas() {
   const [components, setComponents] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "TOOL",
@@ -14,8 +13,8 @@ export default function Canvas() {
       if (!offset) return;
 
       const canvasRect = document.getElementById("canvas-area")?.getBoundingClientRect();
-      const x = Math.round((offset.x - (canvasRect?.left || 0)) / GRID_SIZE) * GRID_SIZE;
-      const y = Math.round((offset.y - (canvasRect?.top || 0)) / GRID_SIZE) * GRID_SIZE;
+      const x = offset.x - (canvasRect?.left || 0);
+      const y = offset.y - (canvasRect?.top || 0);
 
       setComponents((prev) => [
         ...prev,
@@ -24,8 +23,8 @@ export default function Canvas() {
           type: item.type,
           x,
           y,
-          width: GRID_SIZE * 10,
-          height: GRID_SIZE * 5,
+          width: 200,
+          height: 100,
         },
       ]);
     },
@@ -37,6 +36,30 @@ export default function Canvas() {
   const updateComponent = (id, newProps) => {
     setComponents((prev) =>
       prev.map((el) => (el.id === id ? { ...el, ...newProps } : el))
+    );
+  };
+
+  const handleSelect = (id, e) => {
+    if (e.shiftKey) {
+      setSelectedIds((prev) =>
+        prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]
+      );
+    } else {
+      setSelectedIds([id]);
+    }
+  };
+
+  const handleGroupDrag = (id, deltaX, deltaY) => {
+    setComponents((prev) =>
+      prev.map((el) =>
+        selectedIds.includes(el.id)
+          ? {
+              ...el,
+              x: el.x + deltaX,
+              y: el.y + deltaY,
+            }
+          : el
+      )
     );
   };
 
@@ -55,17 +78,27 @@ export default function Canvas() {
             size={{ width: c.width, height: c.height }}
             position={{ x: c.x, y: c.y }}
             bounds="parent"
-            dragGrid={[GRID_SIZE, GRID_SIZE]}
-            resizeGrid={[GRID_SIZE, GRID_SIZE]}
-            onDragStop={(_, d) => updateComponent(c.id, { x: d.x, y: d.y })}
-            onResizeStop={(_, __, ref, delta, position) =>
+            onDragStop={(_, d) => {
+              const deltaX = d.x - c.x;
+              const deltaY = d.y - c.y;
+
+              if (selectedIds.includes(c.id)) {
+                handleGroupDrag(c.id, deltaX, deltaY);
+              } else {
+                updateComponent(c.id, { x: d.x, y: d.y });
+              }
+            }}
+            onResizeStop={(_, __, ref, ____, pos) =>
               updateComponent(c.id, {
                 width: ref.offsetWidth,
                 height: ref.offsetHeight,
-                ...position,
+                ...pos,
               })
             }
-            className="bg-white/10 text-white rounded shadow border border-indigo-400 text-sm flex items-center justify-center overflow-hidden"
+            onClick={(e) => handleSelect(c.id, e)}
+            className={`bg-white/10 text-white rounded shadow border text-sm flex items-center justify-center overflow-hidden ${
+              selectedIds.includes(c.id) ? "border-indigo-400" : "border-gray-500"
+            }`}
           >
             {c.type.toUpperCase()}
           </Rnd>

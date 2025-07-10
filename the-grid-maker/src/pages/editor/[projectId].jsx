@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Canvas from "../../components/Canvas";
 import SidebarLeft from "../../components/SidebarLeft";
@@ -12,13 +12,16 @@ export default function Editor() {
   const { projectId } = useParams();
   const editorRef = useRef(null);
 
+  // 🔄 Shared state between Canvas and Sidebar
+  const [components, setComponents] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
+
   const scrollToEditor = () => {
     editorRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className="relative bg-[#0e0e0f] text-[#f5f5f5] font-sans overflow-x-hidden">
-
       {/* 🫧 Mesh Gradient Blobs Background */}
       <BlobsBackground />
 
@@ -91,8 +94,18 @@ export default function Editor() {
         <div className="flex flex-col h-screen w-full">
           <TopBar projectId={projectId} />
           <div className="flex flex-1 overflow-hidden">
-            <SidebarLeft />
-            <Canvas />
+            <SidebarLeft
+              components={components}
+              setComponents={setComponents}
+              selectedIds={selectedIds}
+              setSelectedIds={setSelectedIds}
+            />
+            <Canvas
+              components={components}
+              setComponents={setComponents}
+              selectedIds={selectedIds}
+              setSelectedIds={setSelectedIds}
+            />
             <SidebarRight />
           </div>
         </div>
