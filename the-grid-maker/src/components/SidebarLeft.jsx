@@ -18,7 +18,7 @@ const tools = [
 
 function DraggableTool({ tool }) {
   const [{ isDragging }, dragRef] = useDrag(() => ({
-    type: "TOOL",
+    type: "TOOL", // This must match what Canvas accepts
     item: { type: tool.type },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),

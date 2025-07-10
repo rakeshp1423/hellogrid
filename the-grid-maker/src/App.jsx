@@ -17,6 +17,8 @@ import Preview from "./pages/preview/[projectId]";
 import Signup from "./pages/signup";
 import Team from "./pages/team";
 import Templates from "./pages/templates";
+import ScrollToTop from "./components/ScrollToTop";
+
 
 // Global effects
 import MouseTrail from "./components/MouseTrail";
@@ -27,6 +29,7 @@ function App() {
     <DndProvider backend={HTML5Backend}>
       <Router>
         {/* Global Animations */}
+        <ScrollToTop />
         <MouseTrail />
         <CircleExplosion />
 
