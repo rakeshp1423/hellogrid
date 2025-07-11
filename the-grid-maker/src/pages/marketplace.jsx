@@ -65,7 +65,7 @@ export default function Marketplace() {
         </Link>
         
       </motion.div>
-      {/* <RotatingTextCylinder /> */}
+      <RotatingTextCylinder />
       {/* <FeatureCylinder /> */}
       
       {/* 🌟 Featured Templates */}
