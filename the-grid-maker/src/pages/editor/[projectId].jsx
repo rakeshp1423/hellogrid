@@ -16,6 +16,34 @@ export default function Editor() {
   const [components, setComponents] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
 
+  // 🧠 Derive selected component from selectedIds
+  const selectedComponent = components.find(comp => comp.id === selectedIds[0]) || null;
+
+  // 🔧 Function to update component properties
+  const updateComponent = (id, newProps) => {
+    setComponents(prev =>
+      prev.map(comp =>
+        comp.id === id
+          ? {
+              ...comp,
+              x: newProps.x,
+              y: newProps.y,
+              width: newProps.width,
+              height: newProps.height,
+              styles: {
+                ...comp.styles,
+                fontSize: newProps.fontSize,
+                color: newProps.color,
+                backgroundColor: newProps.backgroundColor,
+                padding: newProps.padding,
+                margin: newProps.margin,
+              },
+            }
+          : comp
+      )
+    );
+  };
+
   const scrollToEditor = () => {
     editorRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -106,7 +134,10 @@ export default function Editor() {
               selectedIds={selectedIds}
               setSelectedIds={setSelectedIds}
             />
-            <SidebarRight />
+            <SidebarRight
+              selectedComponent={selectedComponent}
+              updateComponent={updateComponent}
+            />
           </div>
         </div>
       </section>

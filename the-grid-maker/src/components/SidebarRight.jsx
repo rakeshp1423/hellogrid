@@ -1,13 +1,234 @@
+import { useEffect, useState } from "react";
 
-export default function SidebarRight() {
+export default function SidebarRight({ selectedComponent, updateComponent }) {
+  const [data, setData] = useState({
+    content: "",
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+    locked: false,
+    visible: true,
+    styles: {
+      fontSize: 16,
+      fontFamily: "Arial",
+      color: "#000000",
+      backgroundColor: "#ffffff",
+      padding: 0,
+      margin: 0,
+      fontWeight: "normal",
+      textAlign: "left",
+      borderRadius: 0,
+    },
+  });
+
+  useEffect(() => {
+    if (selectedComponent) {
+      setData({
+        ...selectedComponent,
+        styles: {
+          fontSize: selectedComponent.styles?.fontSize || 16,
+          fontFamily: selectedComponent.styles?.fontFamily || "Arial",
+          color: selectedComponent.styles?.color || "#000000",
+          backgroundColor: selectedComponent.styles?.backgroundColor || "#ffffff",
+          padding: selectedComponent.styles?.padding || 0,
+          margin: selectedComponent.styles?.margin || 0,
+          fontWeight: selectedComponent.styles?.fontWeight || "normal",
+          textAlign: selectedComponent.styles?.textAlign || "left",
+          borderRadius: selectedComponent.styles?.borderRadius || 0,
+        },
+      });
+    }
+  }, [selectedComponent]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    const parsedValue =
+      type === "number"
+        ? parseInt(value)
+        : type === "checkbox"
+        ? checked
+        : value;
+
+    if (["x", "y", "width", "height", "locked", "visible", "content"].includes(name)) {
+      const updated = { ...data, [name]: parsedValue };
+      setData(updated);
+      updateComponent(data.id, updated);
+    } else {
+      const updatedStyles = {
+        ...data.styles,
+        [name]: parsedValue,
+      };
+      const updated = { ...data, styles: updatedStyles };
+      setData(updated);
+      updateComponent(data.id, updated);
+    }
+  };
+
+  if (!selectedComponent) {
+    return (
+      <aside className="w-72 p-4 bg-[#1e1e1e] text-[#f5f5f5] border-l border-gray-700">
+        <p className="text-gray-400">Select a component to edit its properties.</p>
+      </aside>
+    );
+  }
+
   return (
-    <aside className="sidebar sidebar-right w-64 p-4">
-      <h2 className="font-semibold tracking-wide mb-4 text-[#f5f5f5]">Sidebar Right</h2>
-      <ul>
-        <li className="mb-2 text-gray-400">Properties</li>
-        <li className="mb-2 text-gray-400">Animations</li>
-        <li className="mb-2 text-gray-400">Export</li>
-      </ul>
+    <aside className="w-72 p-4 bg-[#1e1e1e] text-[#f5f5f5] h-full overflow-y-auto border-l border-gray-700 space-y-4">
+      <h2 className="text-lg font-semibold">Inspector</h2>
+
+      {/* Content */}
+      <div>
+        <label className="block text-sm text-gray-400">Inner Text</label>
+        <input
+          type="text"
+          name="content"
+          value={data.content}
+          onChange={handleChange}
+          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+        />
+      </div>
+
+      {/* Position */}
+      <div className="flex gap-2">
+        {["x", "y"].map((pos) => (
+          <div key={pos}>
+            <label className="block text-sm text-gray-400 capitalize">{pos}</label>
+            <input
+              type="number"
+              name={pos}
+              value={data[pos]}
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Size */}
+      <div className="flex gap-2">
+        {["width", "height"].map((dim) => (
+          <div key={dim}>
+            <label className="block text-sm text-gray-400 capitalize">{dim}</label>
+            <input
+              type="number"
+              name={dim}
+              value={data[dim]}
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Typography */}
+      <div>
+        <label className="block text-sm text-gray-400">Font Size</label>
+        <input
+          type="number"
+          name="fontSize"
+          value={data.styles.fontSize}
+          onChange={handleChange}
+          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+        />
+
+        <label className="block text-sm text-gray-400 mt-2">Font Family</label>
+        <select
+          name="fontFamily"
+          value={data.styles.fontFamily}
+          onChange={handleChange}
+          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+        >
+          <option value="Arial">Arial</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Poppins">Poppins</option>
+          <option value="Roboto">Roboto</option>
+        </select>
+
+        <label className="block text-sm text-gray-400 mt-2">Font Weight</label>
+        <select
+          name="fontWeight"
+          value={data.styles.fontWeight}
+          onChange={handleChange}
+          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+        >
+          <option value="normal">Normal</option>
+          <option value="bold">Bold</option>
+        </select>
+
+        <label className="block text-sm text-gray-400 mt-2">Text Align</label>
+        <select
+          name="textAlign"
+          value={data.styles.textAlign}
+          onChange={handleChange}
+          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+        >
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
+
+      {/* Color & Background */}
+      <div className="flex gap-2">
+        <div>
+          <label className="block text-sm text-gray-400">Text Color</label>
+          <input
+            type="color"
+            name="color"
+            value={data.styles.color}
+            onChange={handleChange}
+            className="w-full h-8"
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-400">Background</label>
+          <input
+            type="color"
+            name="backgroundColor"
+            value={data.styles.backgroundColor}
+            onChange={handleChange}
+            className="w-full h-8"
+          />
+        </div>
+      </div>
+
+      {/* Padding / Margin / Radius */}
+      {["padding", "margin", "borderRadius"].map((field) => (
+        <div key={field}>
+          <label className="block text-sm text-gray-400 capitalize">{field}</label>
+          <input
+            type="number"
+            name={field}
+            value={data.styles[field]}
+            onChange={handleChange}
+            className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+          />
+        </div>
+      ))}
+
+      {/* Behavior */}
+      <div className="flex items-center justify-between pt-2">
+        <label className="text-sm text-gray-400">Position Lock</label>
+        <input
+          type="checkbox"
+          name="locked"
+          checked={data.locked}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="flex items-center justify-between">
+        <label className="text-sm text-gray-400">Visible</label>
+        <input
+          type="checkbox"
+          name="visible"
+          checked={data.visible}
+          onChange={handleChange}
+        />
+      </div>
     </aside>
   );
 }
