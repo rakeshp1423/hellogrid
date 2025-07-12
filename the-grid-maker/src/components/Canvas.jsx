@@ -1,5 +1,5 @@
 import { useDrop } from "react-dnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Rnd } from "react-rnd";
 import ContextMenu from "./ContextMenu";
 
@@ -8,6 +8,13 @@ export default function Canvas({ components, setComponents, selectedIds, setSele
   const [showGrid, setShowGrid] = useState(true);
   const [projectName, setProjectName] = useState("Untitled Project");
   const gridSize = 10;
+
+  // 🧹 Reset cursor on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.cursor = "auto";
+    };
+  }, []);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "TOOL",
@@ -177,6 +184,8 @@ export default function Canvas({ components, setComponents, selectedIds, setSele
       <div
         id="canvas-area"
         ref={drop}
+        onMouseEnter={() => (document.body.style.cursor = "default")}
+        onMouseLeave={() => (document.body.style.cursor = "auto")}
         className={`w-full h-full rounded-xl border border-dashed relative ${
           isOver ? "border-indigo-500" : "border-gray-700"
         }`}
