@@ -2,25 +2,43 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaFire, FaTags, FaCrown, FaFolderOpen, FaSearch } from "react-icons/fa";
-import PyramidsBackground from "./PyramidsBackground";
-import RotatingTextCylinder from "../components/RotatingTextCylinder";
-import FeatureCylinder from "../components/FeatureCylinder";
 
-
+// 🧩 At the top of your component:
 const featuredTemplates = [
-  { id: "feat-1", title: "Modern Blog Grid", creator: "DevRiya", description: "Sleek layout for content writers.", tags: ["#modern", "#blog"] },
-  { id: "feat-2", title: "Startup Landing", creator: "CodePixel", description: "Hero and CTA for SaaS.", tags: ["#startup", "#landing"] },
-  { id: "feat-3", title: "Creative Portfolio", creator: "ArjunXD", description: "Showcase your works.", tags: ["#portfolio", "#creative"] },
+  {
+    id: "feat-1",
+    title: "Modern Blog Grid",
+    creator: "DevRiya",
+    description: "Sleek layout for content writers.",
+    tags: ["#modern", "#blog"],
+    image: "/template-images/web1.webp",
+  },
+  {
+    id: "feat-2",
+    title: "Startup Landing",
+    creator: "CodePixel",
+    description: "Hero and CTA for SaaS.",
+    tags: ["#startup", "#landing"],
+    image: "/template-images/web2.webp",
+  },
+  {
+    id: "feat-3",
+    title: "Creative Portfolio",
+    creator: "ArjunXD",
+    description: "Showcase your works.",
+    tags: ["#portfolio", "#creative"],
+    image: "/template-images/web3.webp",
+  },
 ];
 
-const categories = ["Blog", "Portfolio", "E-commerce", "Resume", "Product", "Dashboard"];
 
+
+const categories = ["Blog", "Portfolio", "E-commerce", "Resume", "Product", "Dashboard"];
 const topCreators = [
   { name: "DevTushar", projects: 12 },
   { name: "UI Ninja", projects: 9 },
   { name: "SanaDesigns", projects: 8 },
 ];
-
 const trendingTags = ["#modern", "#darkmode", "#animated", "#minimal", "#gridlover"];
 
 export default function Marketplace() {
@@ -34,7 +52,6 @@ export default function Marketplace() {
 
   return (
     <div className="min-h-screen w-full bg-[#0f0f10] text-white font-sans px-6 md:px-20 pt-0 pb-20 space-y-24">
-      
       {/* 🔥 Hero Section */}
       <motion.div
         className="flex flex-col items-center justify-center min-h-screen text-center"
@@ -63,11 +80,8 @@ export default function Marketplace() {
         >
           Upload Your Template
         </Link>
-        
       </motion.div>
-      {/* <RotatingTextCylinder /> */}
-      {/* <FeatureCylinder /> */}
-      
+
       {/* 🌟 Featured Templates */}
       <section>
         <div className="flex items-center gap-2 mb-6 text-indigo-400 text-xl font-semibold">
@@ -87,7 +101,7 @@ export default function Marketplace() {
               className="bg-[#1a1a1c] p-6 rounded-lg border border-[#2a2a2d] transition-all duration-300 hover:border-indigo-500 hover:shadow-[0_0_15px_#6366f1] group"
             >
               <img
-                src="https://via.placeholder.com/300x180?text=Preview"
+                src={tpl.image}
                 alt={tpl.title}
                 loading="lazy"
                 className="rounded mb-4 w-full h-[180px] object-cover opacity-80 group-hover:opacity-100 transition-all"
