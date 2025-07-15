@@ -18,7 +18,7 @@ import Signup from "./pages/signup";
 import Team from "./pages/team";
 import Templates from "./pages/templates";
 import ScrollToTop from "./components/ScrollToTop";
-
+import AboutUs from "./components/landing/AboutUs";
 
 // Global effects
 import MouseTrail from "./components/MouseTrail";
@@ -38,7 +38,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+          <Route path="/about" element={<AboutUs />} />
           {/* After-login routes */}
           <Route
             path="/home"

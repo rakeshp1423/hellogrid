@@ -50,10 +50,13 @@ export default function CTASection() {
           <span className="text-indigo-400 font-semibold">HelloGrids</span>. All rights reserved.
         </div>
         <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-400 mb-4">
-          <Link to="/account" className="hover:text-indigo-400 transition">Account</Link>
-          <Link to="/templates" className="hover:text-indigo-400 transition">Templates</Link>
+          
+          
           <Link to="/marketplace" className="hover:text-indigo-400 transition">Marketplace</Link>
           <Link to="/about" className="hover:text-indigo-400 transition">About Us</Link>
+
+          <Link to="#" className="hover:text-indigo-400 transition">Contribute</Link>
+          <Link to="#" className="hover:text-indigo-400 transition">Contact the developer</Link>
         </div>
 
         {/* 🔗 Social icons */}
