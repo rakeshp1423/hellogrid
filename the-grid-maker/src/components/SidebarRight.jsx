@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function SidebarRight({ selectedComponent, updateComponent }) {
   const [data, setData] = useState({
+    id: null,
     content: "",
     x: 0,
     y: 0,
@@ -25,45 +26,32 @@ export default function SidebarRight({ selectedComponent, updateComponent }) {
   useEffect(() => {
     if (selectedComponent) {
       setData({
-        ...selectedComponent,
-        styles: {
-          fontSize: selectedComponent.styles?.fontSize || 16,
-          fontFamily: selectedComponent.styles?.fontFamily || "Arial",
-          color: selectedComponent.styles?.color || "#000000",
-          backgroundColor: selectedComponent.styles?.backgroundColor || "#ffffff",
-          padding: selectedComponent.styles?.padding || 0,
-          margin: selectedComponent.styles?.margin || 0,
-          fontWeight: selectedComponent.styles?.fontWeight || "normal",
-          textAlign: selectedComponent.styles?.textAlign || "left",
-          borderRadius: selectedComponent.styles?.borderRadius || 0,
-        },
+        id: selectedComponent.id,
+        content: selectedComponent.content || "",
+        x: selectedComponent.x,
+        y: selectedComponent.y,
+        width: selectedComponent.width,
+        height: selectedComponent.height,
+        locked: selectedComponent.locked,
+        visible: selectedComponent.visible !== false,
+        styles: { ...data.styles, ...selectedComponent.styles },
       });
     }
   }, [selectedComponent]);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value, type, checked } = e.target;
+    const parsed = type === "number" ? parseInt(value) : type === "checkbox" ? checked : value;
+    let updated;
 
-    const parsedValue =
-      type === "number"
-        ? parseInt(value)
-        : type === "checkbox"
-        ? checked
-        : value;
-
-    if (["x", "y", "width", "height", "locked", "visible", "content"].includes(name)) {
-      const updated = { ...data, [name]: parsedValue };
-      setData(updated);
-      updateComponent(data.id, updated);
+    if (["id", "content", "x", "y", "width", "height", "locked", "visible"].includes(name)) {
+      updated = { ...data, [name]: parsed };
     } else {
-      const updatedStyles = {
-        ...data.styles,
-        [name]: parsedValue,
-      };
-      const updated = { ...data, styles: updatedStyles };
-      setData(updated);
-      updateComponent(data.id, updated);
+      updated = { ...data, styles: { ...data.styles, [name]: parsed } };
     }
+
+    setData(updated);
+    updateComponent(updated.id, updated);
   };
 
   if (!selectedComponent) {
@@ -78,156 +66,72 @@ export default function SidebarRight({ selectedComponent, updateComponent }) {
     <aside className="w-72 p-4 bg-[#1e1e1e] text-[#f5f5f5] h-full overflow-y-auto border-l border-gray-700 space-y-4">
       <h2 className="text-lg font-semibold">Inspector</h2>
 
-      {/* Content */}
       <div>
         <label className="block text-sm text-gray-400">Inner Text</label>
-        <input
-          type="text"
-          name="content"
-          value={data.content}
-          onChange={handleChange}
-          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-        />
+        <input type="text" name="content" value={data.content} onChange={handleChange} className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1" />
       </div>
 
-      {/* Position */}
       <div className="flex gap-2">
-        {["x", "y"].map((pos) => (
+        {["x", "y"].map(pos => (
           <div key={pos}>
             <label className="block text-sm text-gray-400 capitalize">{pos}</label>
-            <input
-              type="number"
-              name={pos}
-              value={data[pos]}
-              onChange={handleChange}
-              className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-            />
+            <input type="number" name={pos} value={data[pos]} onChange={handleChange} className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1" />
           </div>
         ))}
       </div>
 
-      {/* Size */}
       <div className="flex gap-2">
-        {["width", "height"].map((dim) => (
+        {["width", "height"].map(dim => (
           <div key={dim}>
             <label className="block text-sm text-gray-400 capitalize">{dim}</label>
-            <input
-              type="number"
-              name={dim}
-              value={data[dim]}
-              onChange={handleChange}
-              className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-            />
+            <input type="number" name={dim} value={data[dim]} onChange={handleChange} className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1" />
           </div>
         ))}
       </div>
 
-      {/* Typography */}
       <div>
         <label className="block text-sm text-gray-400">Font Size</label>
-        <input
-          type="number"
-          name="fontSize"
-          value={data.styles.fontSize}
-          onChange={handleChange}
-          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-        />
-
+        <input type="number" name="fontSize" value={data.styles.fontSize} onChange={handleChange} className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1" />
         <label className="block text-sm text-gray-400 mt-2">Font Family</label>
-        <select
-          name="fontFamily"
-          value={data.styles.fontFamily}
-          onChange={handleChange}
-          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-        >
-          <option value="Arial">Arial</option>
-          <option value="Georgia">Georgia</option>
-          <option value="Courier New">Courier New</option>
-          <option value="Poppins">Poppins</option>
-          <option value="Roboto">Roboto</option>
+        <select name="fontFamily" value={data.styles.fontFamily} onChange={handleChange} className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1">
+          <option>Arial</option><option>Georgia</option><option>Courier New</option><option>Poppins</option><option>Roboto</option>
         </select>
-
         <label className="block text-sm text-gray-400 mt-2">Font Weight</label>
-        <select
-          name="fontWeight"
-          value={data.styles.fontWeight}
-          onChange={handleChange}
-          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-        >
-          <option value="normal">Normal</option>
-          <option value="bold">Bold</option>
+        <select name="fontWeight" value={data.styles.fontWeight} onChange={handleChange} className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1">
+          <option value="normal">Normal</option><option value="bold">Bold</option>
         </select>
-
         <label className="block text-sm text-gray-400 mt-2">Text Align</label>
-        <select
-          name="textAlign"
-          value={data.styles.textAlign}
-          onChange={handleChange}
-          className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-        >
-          <option value="left">Left</option>
-          <option value="center">Center</option>
-          <option value="right">Right</option>
+        <select name="textAlign" value={data.styles.textAlign} onChange={handleChange} className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1">
+          <option>left</option><option>center</option><option>right</option>
         </select>
       </div>
 
-      {/* Color & Background */}
       <div className="flex gap-2">
         <div>
           <label className="block text-sm text-gray-400">Text Color</label>
-          <input
-            type="color"
-            name="color"
-            value={data.styles.color}
-            onChange={handleChange}
-            className="w-full h-8"
-          />
+          <input type="color" name="color" value={data.styles.color} onChange={handleChange} className="h-8 w-full" />
         </div>
         <div>
           <label className="block text-sm text-gray-400">Background</label>
-          <input
-            type="color"
-            name="backgroundColor"
-            value={data.styles.backgroundColor}
-            onChange={handleChange}
-            className="w-full h-8"
-          />
+          <input type="color" name="backgroundColor" value={data.styles.backgroundColor} onChange={handleChange} className="h-8 w-full" />
         </div>
       </div>
 
-      {/* Padding / Margin / Radius */}
-      {["padding", "margin", "borderRadius"].map((field) => (
+      {["padding", "margin", "borderRadius"].map(field => (
         <div key={field}>
           <label className="block text-sm text-gray-400 capitalize">{field}</label>
-          <input
-            type="number"
-            name={field}
-            value={data.styles[field]}
-            onChange={handleChange}
-            className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-          />
+          <input type="number" name={field} value={data.styles[field]} onChange={handleChange} className="w-full bg-gray-800 text-white border border-gray-600 rounded px-2 py-1" />
         </div>
       ))}
 
-      {/* Behavior */}
       <div className="flex items-center justify-between pt-2">
         <label className="text-sm text-gray-400">Position Lock</label>
-        <input
-          type="checkbox"
-          name="locked"
-          checked={data.locked}
-          onChange={handleChange}
-        />
+        <input type="checkbox" name="locked" checked={data.locked} onChange={handleChange} />
       </div>
 
       <div className="flex items-center justify-between">
         <label className="text-sm text-gray-400">Visible</label>
-        <input
-          type="checkbox"
-          name="visible"
-          checked={data.visible}
-          onChange={handleChange}
-        />
+        <input type="checkbox" name="visible" checked={data.visible} onChange={handleChange} />
       </div>
     </aside>
   );
