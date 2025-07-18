@@ -19,6 +19,7 @@ import Team from "./pages/team";
 import Templates from "./pages/templates";
 import ScrollToTop from "./components/ScrollToTop";
 import AboutUs from "./components/landing/AboutUs";
+import Pricing from "./components/Pricing";
 
 // Global effects
 import MouseTrail from "./components/MouseTrail";
@@ -39,6 +40,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/pricing" element={<Pricing />} />
+
           {/* After-login routes */}
           <Route
             path="/home"
