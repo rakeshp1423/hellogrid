@@ -20,6 +20,14 @@ import Templates from "./pages/templates";
 import ScrollToTop from "./components/ScrollToTop";
 import AboutUs from "./components/landing/AboutUs";
 import Pricing from "./components/Pricing";
+import FAQ from "./pages/FAQ";
+import DocsLayout from "./pages/docs/DocsLayout";
+import GettingStarted from "./pages/docs/GettingStarted";
+import CanvasEditor from "./pages/docs/CanvasEditor";
+import Components from "./pages/docs/Components";
+import Layers from "./pages/docs/Layers";
+import Exporting from "./pages/docs/Exporting";
+import Shortcuts from "./pages/docs/Shortcuts";
 
 // Global effects
 import MouseTrail from "./components/MouseTrail";
@@ -41,7 +49,18 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/faq" element={<FAQ />} />
 
+          <Route path="/docs" element={<DocsLayout />}>
+    <Route index element={<GettingStarted />} />
+    <Route path="getting-started" element={<GettingStarted />} />
+    <Route path="canvas-editor" element={<CanvasEditor />} />
+    <Route path="components" element={<Components />} />
+    <Route path="layers" element={<Layers />} />
+    <Route path="exporting" element={<Exporting />} />
+    <Route path="shortcuts" element={<Shortcuts />} />
+    <Route path="faq" element={<FAQ />} />
+  </Route>
           {/* After-login routes */}
           <Route
             path="/home"
