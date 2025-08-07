@@ -2,17 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "the-grid-maker/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "the-grid-maker/dist"
-      }
+      "src": "package.json",
+      "use": "@vercel/static-build"
     }
   ],
-  "routes": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
